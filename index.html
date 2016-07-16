@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Neighborhood Map</title>
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div class="clearfix">
+        <input id="loc-input" class="controls" type="text" placeholder="Enter a Location">
+        <input data-bind="textInput: searchText" class="controls" type="text" placeholder="Filter the list of places" />
+        <div id="list">
+            <h2>Great places to eat in Cape Town!</h2>
+            <ul data-bind="foreach: filterPlaces">
+                <li data-bind="click: $parent.clickMarker">               
+                    <p class="name"><span data-bind="text: name"><span></p> 
+                    <p class="address"><span data-bind="text: address"></span></p>                
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="map-canvas"></div>
+    <script src="js/lib/knockout-3.2.0.js"></script>
+    <script src="js/lib/jquery.min.js"></script>
+    <script src="js/app.js"></script> 
+    <script async src="http://maps.googleapis.com/maps/api/js?libraries=places&callback=googleSuccess" onerror="googleError()"></script>
+</body>
+</html>

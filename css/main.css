@@ -1,0 +1,133 @@
+html { 
+	height: 100% 
+}
+
+body { 
+	height: 100%; margin: 0; padding: 0 
+}
+
+h2 {
+    padding: 0.83em 20px;
+    margin: 0;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    cursor: pointer;
+    margin: 0; 
+    padding: 5px 0;
+    border-top: 1px solid #ccc;
+}
+
+li p {
+    padding: 2px 20px;
+    margin: 0;
+}
+
+p.name {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+li:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+hr {
+    margin: 0;    
+    padding: 0;
+}
+
+#map-canvas { 
+	height: 100% 
+}
+.controls {
+    margin: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    outline: none;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 282px;
+    font-size: 18px;
+    line-height: 2;
+    text-indent: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+#list {
+    background-color: rgba(255, 255, 255, 0.8);
+    font-family: Roboto;
+    font-size: 11px;
+    font-weight: 300;
+    margin-left: 10px;
+    padding: 0px;
+    overflow: auto;
+    width: 100%;
+    max-width: 280px;
+    height: 30%;
+    border: 1px solid #ccc;
+}
+@media (min-width: 768px) {
+    #list {
+        height: 65%;
+    }
+}
+.searchbar {
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    background-color: rgba(255,255,255, 0.9);
+    border: 1px solid gray;
+    padding: 15px 10px;
+    z-index: 9;
+}
+
+@media screen and (max-width: 400px) {
+    #pac-input {
+        width: 90%;
+    }
+    #pac-input:focus {
+        width: 91%;
+    }
+}
+
+#pac-input {
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 300px;
+}
+
+#pac-input:focus {
+    border-color: #4d90fe;
+    margin-left: -1px;
+    padding-left: 14px;  
+    width: 301px;
+}
+
+.pac-container {
+    font-family: Roboto;
+}
+
+#type-selector {
+    color: #fff;
+    background-color: #4d90fe;
+    padding: 5px 11px 0px 11px;
+}
+
+#type-selector label {
+    font-family: Roboto;
+    font-size: 13px;
+    font-weight: 300;
+}
