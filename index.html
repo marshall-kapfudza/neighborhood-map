@@ -11,6 +11,8 @@
     <div class="clearfix">
         <input id="loc-input" class="controls" type="text" placeholder="Enter a Location">
         <input data-bind="textInput: searchText" class="controls" type="text" placeholder="Filter the list of places" />
+        <!--<button data-bind="click: setIsSelected">Focus programmatically</button>-->
+        <!--<span data-bind="visible: isSelected">The textbox has focus</span>-->
         <div id="list">
             <h2>Great places to eat in Cape Town!</h2>
             <ul data-bind="foreach: filterPlaces">
@@ -24,7 +26,7 @@
     <div id="map-canvas"></div>
     <script src="js/lib/knockout-3.2.0.js"></script>
     <script src="js/lib/jquery.min.js"></script>
-    <script src="js/app.js"></script> 
-    <script async src="http://maps.googleapis.com/maps/api/js?libraries=places&callback=googleSuccess" onerror="googleError()"></script>
+    <script async src="js/app.js"></script> 
+    <script async src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBx4R2tktpUnQgq9aPi3osIjVil4-4_-9I&libraries=places&callback=googleSuccess" onerror="googleError()"></script>
 </body>
 </html>

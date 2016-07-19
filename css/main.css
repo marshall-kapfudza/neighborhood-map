@@ -54,11 +54,16 @@ hr {
     outline: none;
     border: 1px solid #ccc;
     width: 100%;
-    max-width: 282px;
+    max-width: 256px;
     font-size: 18px;
     line-height: 2;
     text-indent: 10px;
     background-color: rgba(255, 255, 255, 0.8);
+}
+.gm-style-iw .content {
+    max-width: 160px !important;
+    width: 100% !important;
+    word-wrap: break-word;
 }
 
 #list {
@@ -74,11 +79,7 @@ hr {
     height: 30%;
     border: 1px solid #ccc;
 }
-@media (min-width: 768px) {
-    #list {
-        height: 65%;
-    }
-}
+
 .searchbar {
     position: absolute;
     top: 50px;
@@ -130,4 +131,14 @@ hr {
     font-family: Roboto;
     font-size: 13px;
     font-weight: 300;
+}
+@media only screen and (min-width: 360px) and (max-width: 414px) {
+    #list {
+        min-width: 330px
+    }
+}
+@media (min-width: 768px) {
+    #list {
+        height: 65%;
+    }
 }

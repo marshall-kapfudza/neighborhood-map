@@ -1,16 +1,14 @@
-var googleError = function() { alert("It seems Google Maps has failed to load (Try checking internet connection and/or script url)"); };
-
 var googleSuccess = function() {
 
   function appViewModel() {
-    var self = this; 
-    var map;
-    var service;
-    var infowindow;
-    var lat = '';
-    var lng = '';
-    var favouritePlaces = new google.maps.LatLng(-33.918861, 18.423300);
-    var markersArray = [];  
+    var self = this, 
+    map,
+    service,
+    infowindow,
+    lat = '',
+    lng = '',
+    favouritePlaces = new google.maps.LatLng(-33.928722, 18.459113),
+    markersArray = [];  
 
     // array to hold info for knockout
     self.allPlaces = ko.observableArray([]);
@@ -22,11 +20,11 @@ var googleSuccess = function() {
     self.filterPlaces = ko.computed(function() {
       var returnArray = [];
 
-    // hide all markers
-      for (var i = 0; i < markersArray.length; i++) {
+      // hide all markers
+      for (var i=0; i<markersArray.length; i++) {
         markersArray[i].setVisible(false);
       }
-      for (var j = 0,place; j < self.allPlaces().length; j++) {
+      for (var j=0,place; j<self.allPlaces().length; j++) {
         place = self.allPlaces()[j];
         if (self.searchText() === '' || place.name.toLowerCase().indexOf(self.searchText()) > -1) {
           // add those places where name contains search text
@@ -35,14 +33,13 @@ var googleSuccess = function() {
             // makes those markers visible
             if(place.place_id === markersArray[e].place_id) { 
               markersArray[e].setVisible(true);
-            };
-          }; 
-        };
-      };
+            }
+          }
+        }
+      }
       return returnArray;
     });
-
-
+    
     // string to hold foursquare information
     self.foursquareInfo = '';
 
@@ -141,11 +138,11 @@ var googleSuccess = function() {
       });    
       var address;
       if (place.vicinity !== undefined) {
-        address = place.vicinity;
+        address = '<b>Vicinity:</b>' + place.vicinity;
       } else if (place.formatted_address !== undefined) {
-        address = place.formatted_address;
+        address = '<b>Address:</b>' + place.formatted_address;
       }       
-      var contentString = '<div style="font-weight: bold">' + place.name + '</div><div>' + address + '</div>' + self.foursquareInfo ;
+      var contentString = '<div class="content"><div style="font-weight: bold">' + place.name + '</div><div>' + address + '</div></div>' + self.foursquareInfo ;
 
       google.maps.event.addListener(marker, 'click', function() {      
         infowindow.setContent(contentString);      
@@ -191,7 +188,7 @@ var googleSuccess = function() {
         })
         // Fail message for Foursquare API
         .fail(function(error){
-          alert("Foursquare API has failed");
+          alert("Foursquare API has failed, error details:" + error);
         });
     };  
    
@@ -212,11 +209,11 @@ var googleSuccess = function() {
 
       // waits 300 milliseconds for the getFoursquare async function to finish
       setTimeout(function() {
-        var contentString = '<div style="font-weight: bold">' + place.name + '</div><div>' + place.address + '</div>' + self.foursquareInfo;
+        var contentString = '<div class="content"><div style="font-weight: bold">' + place.name + '</div><div>' + place.address + '</div>' + '<div>' + self.foursquareInfo + '</div>';
         infowindow.setContent(contentString);
         infowindow.open(map, marker); 
         marker.setAnimation(google.maps.Animation.DROP); 
-      }, 300);     
+      }, 500);     
     };
 
 
@@ -241,35 +238,35 @@ var googleSuccess = function() {
     }
 
     //an observable that retrieves its value when first bound
-ko.onDemandObservable = function(callback, target) {
-    var _value = ko.observable();  //private observable
+    ko.onDemandObservable = function(callback, target) {
+        var _value = ko.observable();  //private observable
 
-    var result = ko.computed({
-        read: function() {
-            //if it has not been loaded, execute the supplied function
-            if (!result.loaded()) {
-                callback.call(target);
-            }
-            //always return the current value
-            return _value();
-        },
-        write: function(newValue) {
-            //indicate that the value is now loaded and set it
-            result.loaded(true);
-            _value(newValue);
-        },
-        deferEvaluation: true  //do not evaluate immediately when created
-    });
+        var result = ko.computed({
+            read: function() {
+                //if it has not been loaded, execute the supplied function
+                if (!result.loaded()) {
+                    callback.call(target);
+                }
+                //always return the current value
+                return _value();
+            },
+            write: function(newValue) {
+                //indicate that the value is now loaded and set it
+                result.loaded(true);
+                _value(newValue);
+            },
+            deferEvaluation: true  //do not evaluate immediately when created
+        });
 
-    //expose the current state, which can be bound against
-    result.loaded = ko.observable();
-    //load it again
-    result.refresh = function() {
-        result.loaded(false);
+        //expose the current state, which can be bound against
+        result.loaded = ko.observable();
+        //load it again
+        result.refresh = function() {
+            result.loaded(false);
+        };
+
+        return result;
     };
-
-    return result;
-};
 
 
     /*
@@ -285,6 +282,10 @@ ko.onDemandObservable = function(callback, target) {
     google.maps.event.addDomListener(window, 'load', initialize);
   }
   $(function(){
-  ko.applyBindings(new appViewModel());
+    ko.applyBindings(new appViewModel());
   });
 }
+
+var googleError = function(e) { 
+  alert("It seems Google Maps has failed to load (Try checking internet connection and/or script url)"); 
+};
