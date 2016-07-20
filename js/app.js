@@ -1,5 +1,4 @@
 var googleSuccess = function() {
-
   function appViewModel() {
     var self = this, 
     map,
@@ -121,8 +120,10 @@ var googleSuccess = function() {
         });
         map.fitBounds(bounds);
         results.forEach(getAllPlaces);                 
+      } else {
+        alert('Places API request fails');
       }
-    }
+    } 
 
     /*
     Function to create a marker at each place.  This is called on load of the map with the pre-populated list, and also after each search.  Also sets the content of each place's infowindow.
@@ -144,7 +145,8 @@ var googleSuccess = function() {
       }       
       var contentString = '<div class="content"><div style="font-weight: bold">' + place.name + '</div><div>' + address + '</div></div>' + self.foursquareInfo ;
 
-      google.maps.event.addListener(marker, 'click', function() {      
+      google.maps.event.addListener(marker, 'click', function(e) {
+        e.preventDefault;      
         infowindow.setContent(contentString);      
         infowindow.open(map, this);
         map.panTo(marker.position); 
@@ -163,28 +165,28 @@ var googleSuccess = function() {
     this.getFoursquareInfo = function(point) {
       // creats our foursquare URL
       var foursquareURL = 'https://api.foursquare.com/v2/venues/search?client_id=' + clientID + '&client_secret=' + clientSecret + '&v=20150321' + '&ll=' +lat+ ',' +lng+ '&query=\'' +point.name +'\'&limit=1';
-      $.getJSON(foursquareURL)
+      return $.getJSON(foursquareURL)
         .done(function(response) {
           self.foursquareInfo = '<p><span style="font-weight: bold">Nearby:</span><br>';
           var venue = response.response.venues[0];
           // Name       
           var venueName = venue.name;
-              if (venueName !== null && venueName !== undefined) {
-                  self.foursquareInfo += 'Name: ' +
-                    venueName + '<br>';
-              }   
+          if (venueName !== null && venueName !== undefined) {
+              self.foursquareInfo += 'Name: ' +
+                venueName + '<br>';
+          }   
           // Phone Number     
           var phoneNum = venue.contact.formattedPhone;
-              if (phoneNum !== null && phoneNum !== undefined) {
-                  self.foursquareInfo += 'Phone: ' +
-                    phoneNum + '<br>';
-              } 
+          if (phoneNum !== null && phoneNum !== undefined) {
+              self.foursquareInfo += 'Phone: ' +
+                phoneNum + '<br>';
+          } 
           // Twitter
           var twitterId = venue.contact.twitter;
-              if (twitterId !== null && twitterId !== undefined) {
-                self.foursquareInfo += 'twitter: @' +
-                    twitterId + '<br>';
-              } 
+          if (twitterId !== null && twitterId !== undefined) {
+            self.foursquareInfo += 'twitter: @' +
+                twitterId + '<br>';
+          } 
         })
         // Fail message for Foursquare API
         .fail(function(error){
@@ -203,17 +205,16 @@ var googleSuccess = function() {
           marker = markersArray[e];
           break; 
         }
-      } 
-      self.getFoursquareInfo(place);         
-      map.panTo(marker.position);   
-
-      // waits 300 milliseconds for the getFoursquare async function to finish
-      setTimeout(function() {
+      }    
+      /* getFoursquare async function to finish */
+      self.getFoursquareInfo(place).then(function() {
+        /* infowindow.setContent and infowindow.open */
         var contentString = '<div class="content"><div style="font-weight: bold">' + place.name + '</div><div>' + place.address + '</div>' + '<div>' + self.foursquareInfo + '</div>';
         infowindow.setContent(contentString);
         infowindow.open(map, marker); 
-        marker.setAnimation(google.maps.Animation.DROP); 
-      }, 500);     
+        marker.setAnimation(google.maps.Animation.DROP);
+      });
+      map.panTo(marker.position);     
     };
 
 
